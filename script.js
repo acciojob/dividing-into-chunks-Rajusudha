@@ -1,27 +1,34 @@
-def divide(arr, n):
-    if not arr or n <= 0:
-        return "Invalid input"
+function divide(arr, n) {
+    if (!Array.isArray(arr) || typeof n !== 'number' || n <= 0) {
+        return "Invalid input. Please provide a valid array and a positive integer.";
+    }
 
-    result = []
-    current_subarray = []
+    let result = [];
+    let currentSubarray = [];
 
-    current_sum = 0
-    for num in arr:
-        if current_sum + num <= n:
-            current_subarray.append(num)
-            current_sum += num
-        else:
-            result.append(current_subarray)
-            current_subarray = [num]
-            current_sum = num
+    for (let num of arr) {
+        if (currentSubarray.reduce((sum, el) => sum + el, 0) + num <= n) {
+            currentSubarray.push(num);
+        } else {
+            result.push([...currentSubarray]);
+            currentSubarray = [num];
+        }
+    }
 
-    # Adding the last subarray
-    result.append(current_subarray)
+    if (currentSubarray.length > 0) {
+        result.push([...currentSubarray]);
+    }
 
-    return result
+    return result;
+}
 
-# Examples
-print(divide([1, 2, 3, 4, 1, 0, 2, 2], 5))  # Output: [[1, 2], [3], [4, 1, 0], [2, 2]]
-print(divide([4, 3, 2, 1], 4))              # Output: [[4], [3], [2], [1]]
+// Examples
+console.log(divide([1, 2, 3, 4, 1, 0, 2, 2], 5));
+// Output: [[1, 2], [3], [4, 1, 0], [2, 2]]
+
+console.log(divide([4, 3, 2, 1], 4));
+// Output: [[4], [3], [2], [1]]
+
+
 
 
